@@ -1,6 +1,4 @@
 "use client"
-import {DndProvider} from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
 import { useState } from "react"
 import { HEIGHT, WIDTH } from './constants';
 
@@ -60,7 +58,7 @@ export default function Home() {
         }));
     }
     
-    return <DndProvider backend={HTML5Backend}>
+    return <>
         <div className="w-screen flex justify-center py-3 gap-x-2">
             <input className="w-1/2 h-8 rounded-lg text-black" value={item} onChange={handleChange} placeholder="Please enter your item!"></input>
             <button className="w-fit px-2 rounded-lg bg-white text-black" onClick={handleAddItem}>Add</button>
@@ -70,5 +68,5 @@ export default function Home() {
                 list.map((item,index) => <div id={item.id.toString()} key={item.id} draggable='true' onDragEnd={handleDragEnd} className="max-w-96 max-h-32 w-fit h-fit fixed p-2 rounded-lg bg-[#fede67] text-black" style={{top: item.y, left: item.x}} >{item.message}</div>)
             }
         </div>
-    </DndProvider>
+    </>
 }
