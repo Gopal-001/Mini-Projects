@@ -35,21 +35,7 @@ export default function Home() {
             setItem('');
         }
     }
-    const handleDragOver = (e) => {
-        console.log('dragOver', e);
-    }
-    const handleDrag = (e) => {
-        console.log('handleDrag', e);
-    }
     const handleDragEnd = (e) => {
-        console.log('handleDragEnd', e);
-        // const newList = list.map((item) => {
-        //     if(item.id == parseInt(e.target.id)){
-        //         item.updatePosition(e.screenX,e.screenY);
-        //     } 
-        //     return item;
-        // });
-        console.log(e.screenX,':X    Y:',e.screenY)
         setList(prev => prev.map((item) => {
             if(item.id == parseInt(e.target.id)){
                 item.updatePosition(e.screenX,e.screenY);
