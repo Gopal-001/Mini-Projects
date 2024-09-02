@@ -1,0 +1,12 @@
+#ide-container {
+    height: 200px;
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+}
+
+#ide {
+    width: 50%;
+    height: 90%; 
+    margin-top: 20px
+}
