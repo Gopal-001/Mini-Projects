@@ -5,7 +5,9 @@ function onTextChange() {
     ele.onkeydown = e => {
         console.log("ele: ",e)
         if(e.code === "Tab"){
-            ele.setRangeText("\t", ele.selectionStart, ele.selectionStart, 'end')
+            const target = e.currentTarget
+            const { selectionStart, value } = target;
+            target.value = value.slice(0,selectionStart) + '\t' + value.slice(selectionStart);
             return false;
         }
     }
