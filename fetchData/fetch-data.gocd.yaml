@@ -35,7 +35,7 @@ pipelines:
                 run_if: passed
             - exec:
                 arguments:
-                - push
+                - run
                 - fetch-data:latest
                 command: docker
                 run_if: passed
