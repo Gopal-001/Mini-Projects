@@ -19,6 +19,13 @@ pipelines:
         approval:
           type: success
           allow_only_on_success: false
+        environment_variables:
+          - DB_NAME: DB_URL
+          - DB_HOST: DB_URL
+          - DB_PORT: DB_URL
+          - DB_USERNAME: DB_URL
+          - DB_PASSWORD: DB_URL
+          - DB_URL: DB_URL
         jobs:
           fetch-data-job:
             timeout: 0
