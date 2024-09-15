@@ -17,14 +17,7 @@ DB_URL = os.getenv('DB_URL')
 def fetch_one_result(query, data=None):
     try:
         # conn = psycopg2.connect(DB_URL)
-        conn = psycopg2.connect(
-            user=DB_USERNAME,
-            password=DB_PASSWORD,
-            host=DB_HOST,
-            port=DB_PORT,
-            dbname=DB_NAME,
-            sslmode='require'
-        )   
+        conn = psycopg2.connect(DB_URL)  
         conn.set_session(autocommit = True)
         cursor = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
         cursor.execute(query, data)
