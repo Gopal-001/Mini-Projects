@@ -13,10 +13,10 @@ pipelines:
         branch: gocd
     environment_variables:
       ENV: DEV
-      DB_NAME: sample
+      DB_NAME: sampleDB
       DB_HOST: sample
       DB_PORT: 5432
-      DB_USERNAME: sample
+      DB_USERNAME: postgres
       DB_PASSWORD: samlple
       DB_URL: sample
     stages:

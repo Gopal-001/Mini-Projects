@@ -13,7 +13,13 @@ DB_USERNAME = os.getenv('DB_USERNAME')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_HOST = os.getenv('DB_HOST')
 DB_PORT = os.getenv('DB_PORT')
-DB_URL = os.getenv('DB_URL')
+
+print("Database connection details:")
+print(f"DB_NAME: {DB_NAME}")
+print(f"DB_USERNAME: {DB_USERNAME}")
+print(f"DB_HOST: {DB_HOST}")
+print(f"DB_PORT: {DB_PORT}")
+# Don't print DB_PASSWORD for security reasons
 
 def fetch_one_result(query, data=None):
     try:
