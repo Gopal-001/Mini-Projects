@@ -1,3 +1,8 @@
+from configparser import ConfigParser
+import os
+import psycopg2
+
+
 parser = ConfigParser()
 parser.read('config.ini')
 env = os.getenv('ENV', 'LOCAL')
