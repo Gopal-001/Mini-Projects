@@ -7,12 +7,12 @@ parser = ConfigParser()
 parser.read('config.ini')
 env = os.getenv('ENV', 'DEV')
 
-DB_NAME = os.getenv('DB_NAME', parser.get(env, 'DB_NAME'))
-DB_USERNAME = os.getenv('DB_USERNAME', parser.get(env, 'DB_USERNAME'))
-DB_PASSWORD = os.getenv('DB_PASSWORD', parser.get(env, 'DB_PASSWORD'))
-DB_HOST = os.getenv('DB_HOST', parser.get(env, 'DB_HOST'))
-DB_PORT = os.getenv('DB_PORT', parser.get(env, 'DB_PORT'))
-DB_URL = os.getenv('DB_URL', parser.get(env, 'DB_URL'))
+DB_NAME = parser.get(env, 'DB_NAME')
+DB_USERNAME = parser.get(env, 'DB_USERNAME')
+DB_PASSWORD = parser.get(env, 'DB_PASSWORD')
+DB_HOST = parser.get(env, 'DB_HOST')
+DB_PORT = parser.get(env, 'DB_PORT')
+DB_URL = parser.get(env, 'DB_URL')
 
 def fetch_one_result(query, data=None):
     try:
