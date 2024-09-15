@@ -28,12 +28,16 @@ pipelines:
                 - build
                 - -t
                 - fetch-data:latest
+                - -f
+                - fetchData/dockerfile
                 - .
                 command: docker
                 run_if: passed
             - exec:
                 arguments:
                 - push
+                - -f
+                - fetchData/dockerfile
                 - fetch-data:latest
                 command: docker
                 run_if: passed
