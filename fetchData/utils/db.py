@@ -5,7 +5,7 @@ import psycopg2
 
 parser = ConfigParser()
 parser.read('config.ini')
-env = os.getenv('ENV', 'LOCAL')
+env = os.getenv('ENV', 'DEV')
 
 DB_NAME = os.getenv('DB_NAME', parser.get(env, 'DB_NAME'))
 DB_USERNAME = os.getenv('DB_USERNAME', parser.get(env, 'DB_USERNAME'))
