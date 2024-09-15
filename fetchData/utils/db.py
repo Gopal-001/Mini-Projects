@@ -21,6 +21,8 @@ print(f"DB_HOST: {DB_HOST}")
 print(f"DB_PORT: {DB_PORT}")
 # Don't print DB_PASSWORD for security reasons
 
+print(f"TEST_VAR: {os.getenv('TEST_VAR')}")
+
 def fetch_one_result(query, data=None):
     try:
         # Explicitly create a TCP connection

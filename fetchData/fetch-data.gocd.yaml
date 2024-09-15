@@ -19,6 +19,7 @@ pipelines:
       DB_USERNAME: postgres
       DB_PASSWORD: samlple
       DB_URL: sample
+      TEST_VAR: "Hello, GoCD!"
     stages:
     - fetch-data:
         fetch_materials: true
