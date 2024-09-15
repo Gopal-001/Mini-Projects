@@ -12,6 +12,7 @@ DB_USERNAME = os.getenv('DB_USERNAME')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_HOST = os.getenv('DB_HOST')
 DB_PORT = os.getenv('DB_PORT')
+DB_URL = os.getenv('DB_URL')
 
 def fetch_one_result(query, data=None):
     try:
