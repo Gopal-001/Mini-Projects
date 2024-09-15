@@ -7,4 +7,4 @@ RUN pip install --no-cache-dir -r fetchData/requirements.txt
 
 COPY . .
 
-CMD ["python3", "init.py"]
+CMD ["python3", "fetchData/init.py"]
