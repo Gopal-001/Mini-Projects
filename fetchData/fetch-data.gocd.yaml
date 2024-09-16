@@ -33,28 +33,24 @@ pipelines:
             timeout: 0
             tasks:
             - exec:
+                command: /bin/bash
                 arguments:
-                - build
-                - --build-arg
-                - DB_NAME=${DB_NAME}
-                - --build-arg
-                - DB_USERNAME=${DB_USERNAME}
-                - --build-arg
-                - DB_PASSWORD=${DB_PASSWORD}
-                - --build-arg
-                - DB_HOST=${DB_HOST}
-                - --build-arg
-                - DB_PORT=${DB_PORT}
-                - --build-arg
-                - TEST_VAR=${TEST_VAR}
-                - --build-arg
-                - DB_URL=${DB_URL}
-                - -t
-                - fetch-data:latest
-                - -f
-                - fetchData/dockerfile
-                - .
-                command: docker
+                - -c
+                - |
+                  echo "Building Docker image..."
+                  docker build \
+                    --no-cache \
+                    --progress=plain \
+                    --build-arg DB_NAME="$DB_NAME" \
+                    --build-arg DB_USERNAME="$DB_USERNAME" \
+                    --build-arg DB_PASSWORD="$DB_PASSWORD" \
+                    --build-arg DB_HOST="$DB_HOST" \
+                    --build-arg DB_PORT="$DB_PORT" \
+                    --build-arg TEST_VAR="$TEST_VAR" \
+                    --build-arg DB_URL="$DB_URL" \
+                    -t fetch-data:latest \
+                    -f fetchData/dockerfile \
+                    .
                 run_if: passed
             - exec:
                 arguments:
