@@ -1,0 +1,60 @@
+format_version: 10
+pipelines:
+  fetch-data:
+    group: defaultGroup
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
+    materials:
+      git-30315c0:
+        git: https://github.com/Gopal-001/Mini-Projects.git
+        shallow_clone: false
+        auto_update: true
+        branch: gocd
+    environment_variables:
+      ENV: DEV
+      DB_NAME: sampleDB
+      DB_HOST: sample
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: samlple
+      DB_URL: sample
+      TEST_VAR: "Hello, GoCD!"
+    stages:
+    - fetch-data:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          fetch-data-job:
+            timeout: 0
+            tasks:
+            - exec:
+                command: /bin/bash
+                arguments:
+                - -c
+                - |
+                  echo "Building Docker image..."
+                  docker build \
+                    --no-cache \
+                    --progress=plain \
+                    --build-arg DB_NAME="$DB_NAME" \
+                    --build-arg DB_USERNAME="$DB_USERNAME" \
+                    --build-arg DB_PASSWORD="$DB_PASSWORD" \
+                    --build-arg DB_HOST="$DB_HOST" \
+                    --build-arg DB_PORT="$DB_PORT" \
+                    --build-arg TEST_VAR="$TEST_VAR" \
+                    --build-arg DB_URL="$DB_URL" \
+                    -t fetch-data:latest \
+                    -f fetchData/dockerfile \
+                    .
+                run_if: passed
+            - exec:
+                arguments:
+                - run
+                - fetch-data:latest
+                command: docker
+                run_if: passed
