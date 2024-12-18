@@ -1,70 +1,168 @@
-# Getting Started with Create React App
+# Todo List Application with Kubernetes and Helm
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a todo list application deployed using Kubernetes and Helm. Follow these steps to set up and run the application.
 
-## Available Scripts
+## Prerequisites
 
-In the project directory, you can run:
+- Node.js and npm
+- Docker
+- Minikube
+- Helm
+- kubectl
 
-### `npm start`
+## Installation Steps
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 1. Install Node Modules
+```bash
+# Install dependencies
+npm install
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 2. Start Minikube
+```bash
+# Start minikube
+minikube start
 
-### `npm test`
+# Enable ingress addon
+minikube addons enable ingress
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Configure shell to use minikube's docker daemon
+eval $(minikube docker-env)
+```
 
-### `npm run build`
+### 3. Build Docker Image
+```bash
+# Build the docker image
+docker build -t todo-list:latest .
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Verify image is built
+docker images | grep todo-list
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 4. Deploy with Helm
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Make sure you're in the project root directory.
 
-### `npm run eject`
+```bash
+# Clean up any previous installations if needed
+helm uninstall todo-app
+kubectl delete configmap --all
+kubectl delete pod --all
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# Install the Helm chart
+helm install todo-app . -f env/dev.yaml
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Verify deployment
+kubectl get pods
+kubectl get svc
+kubectl get configmap
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 5. Access the Application
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+# Method 1: Using minikube service
+minikube service todo-app-todo-list
 
-## Learn More
+# Method 2: Port forwarding
+kubectl port-forward svc/todo-app-todo-list 3000:80
+# Then open http://localhost:3000 in your browser
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Verify Installation
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+# Check pod status
+kubectl get pods
 
-### Code Splitting
+# Check service
+kubectl get svc
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+# Check ConfigMap
+kubectl get configmap
 
-### Analyzing the Bundle Size
+# Check logs
+kubectl logs -l app.kubernetes.io/instance=todo-app
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Configuration
 
-### Making a Progressive Web App
+The application configuration is managed through environment variables in `env/dev.yaml`:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```yaml
+environmentVars:
+  URL_V1: "http://localhost:8080"
+  URL_V2: "http://localhost:8081"
+```
 
-### Advanced Configuration
+## Cleanup
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```bash
+# Uninstall Helm release
+helm uninstall todo-app
 
-### Deployment
+# Stop minikube
+minikube stop
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+# Delete minikube cluster if needed
+minikube delete
+```
 
-### `npm run build` fails to minify
+## Troubleshooting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. If pods are not starting:
+```bash
+kubectl describe pod <pod-name>
+```
+
+2. If ConfigMap is not found:
+```bash
+kubectl get configmap
+kubectl describe configmap
+```
+
+3. If service is not accessible:
+```bash
+kubectl get svc
+kubectl describe svc todo-app-todo-list
+```
+
+## Directory Structure
+```
+todo-list/
+├── src/
+├── public/
+├── helm-charts/
+│   ├── templates/
+│   │   ├── deployment.yaml
+│   │   ├── service.yaml
+│   │   ├── config.yaml
+│   │   └── _helpers.tpl
+│   ├── Chart.yaml
+│   └── values.yaml
+├── env/
+│   └── dev.yaml
+├── Dockerfile
+└── package.json
+```
+
+## Additional Commands
+
+```bash
+# Get minikube IP
+minikube ip
+
+# SSH into minikube
+minikube ssh
+
+# View dashboard
+minikube dashboard
+```
+
+## Notes
+- Make sure Docker daemon is running
+- Ensure minikube has enough resources allocated
+- Use `minikube docker-env` before building images
+- Check logs if application is not accessible
+
+For more information, check the [Kubernetes Documentation](https://kubernetes.io/docs/home/) and [Helm Documentation](https://helm.sh/docs/).
