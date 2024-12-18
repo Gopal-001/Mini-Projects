@@ -1,0 +1,38 @@
+replicaCount: 1
+
+nameOverride: ""
+fullnameOverride: ""
+
+image:
+  repository: todo-list
+  tag: "latest"
+  pullPolicy: Never  # Important for local images
+
+service:
+  type: NodePort
+  port: 80
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations: {}
+  hosts:
+    - host: todo-list.local
+      paths:
+        - path: /
+          pathType: Prefix
+
+environmentVars:
+  URL_V1: "http://localhost:8080"
+  URL_V2: "http://localhost:8081"
+  API_URL: "http://api.example.com"
+  NODE_ENV: "production"
+  # Add other environment variables as needed
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi

@@ -1,0 +1,12 @@
+environmentVars:
+  URL_V1: "http://api-dev1.example.com"
+  URL_V2: "http://api-dev2.example.com"
+  API_URL: "http://api-dev.example.com"
+  NODE_ENV: "development"
+
+ingress:
+  hosts:
+    - host: todo-dev.example.com
+      paths:
+        - path: /
+          pathType: Prefix
